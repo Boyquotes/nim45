@@ -10,3 +10,5 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 526, 119, 17, 16 )
+
+[node name="Tween" type="Tween" parent="."]

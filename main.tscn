@@ -1,16 +1,40 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://roomA.tscn" type="PackedScene" id=2]
 [ext_resource path="res://DialogBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://atlas.tres" type="Texture" id=4]
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 128, 128 )
-z_index = 1
+z_index = -5
 
 [node name="Room" parent="." instance=ExtResource( 2 )]
+z_index = -5
 
 [node name="DialogBox" parent="." instance=ExtResource( 3 )]
 position = Vector2( 16, 190 )
+z_index = -4
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 248.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 240.0
+margin_bottom = 240.0
+custom_constants/separation = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+margin_right = 240.0
+margin_bottom = 14.0
+text = "bladder"
+
+[node name="TextureProgress" type="TextureProgress" parent="MarginContainer"]
+margin_right = 240.0
+margin_bottom = 240.0
+texture_over = ExtResource( 4 )
