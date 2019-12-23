@@ -11,7 +11,6 @@ var showText;
 onready var bone = preload("res://Bone.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
 	set_process_input(true)
 	showText = false;
 
@@ -38,5 +37,4 @@ func _input(event):
 			visible_characters = 0
 
 func _on_Timer_timeout():
-	
 	visible_characters = visible_characters+1;

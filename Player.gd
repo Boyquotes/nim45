@@ -1,67 +1,57 @@
 # Player.gd
 extends Node2D
 
+var mouseOver = false;
 var speed = 4
-var tween
-var dog
+var tween:Tween;
+var dog:Sprite
 var property = "transform/position"
 
+signal dog_entered_fire
+
+var start:Vector2
+var end:Vector2
+
 func _ready():
-	tween = get_node("Tween")
-	dog = get_node("Sprite")
+	tween = get_node("Dog/Tween")
+	dog = get_node("Dog")
 
-func _process(delta):
-	handleInput()
-
-func handleInput():
-	mouseClick()
-	# KeyBoardControls
-	if Input.is_action_pressed("right"):
-		move("right")
-		if get_node("Sprite").flip_h:
-			get_node("Sprite").flip_h = false
-	if Input.is_action_pressed("left"):
-		move("left")
-		if !get_node("Sprite").flip_h:
-			get_node("Sprite").flip_h = true
-	if Input.is_action_pressed("up"):
-		move("up")
-	if Input.is_action_pressed("down"):
-		move("down")
-
-func mouseClick():
-	if Input.is_mouse_button_pressed(1):
-		move_ball_to(get_local_mouse_position())
-	
-
-
-func move(word):
-	match word:
-		"right":
-			position.x += floor(1 * speed);
-		"left":
-			position.x -= floor(1 * speed);
-		"up":
-			position.y -= floor(1 * speed);
-		"down":
-			position.y += floor(1 * speed);
-
-
-func move_ball_to(target_pos):
-	var start = dog.position
-	var end = target_pos
-	var distance = start.distance_to(end)
+func move_dog_to(target_pos, time):
+	start = dog.position
+	end = target_pos
 	var direction = start - end;
+	var dist = start.distance_to(end)
 	if direction.x < 0:
-		dog.flip_h = false
+		dog.get_node("Sprite").flip_h = false
 	else:
-		dog.flip_h = true
-	var time = distance / 40
+		dog.get_node("Sprite").flip_h = true
 	
-	if time <= 0: return
-	
+	var t = dist / 120;
 	tween.interpolate_property(dog, "position",
-        start, end, time,
-        Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+        start, end, t,
+        Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
 	tween.start()
 
+#func _input(event):
+#	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+#		if event.is_pressed():
+#			move_dog_to(get_local_mouse_position(),0.75)
+#			self.on_click()
+
+func on_click():
+    print("Click")
+
+var onFire = false;
+
+func _on_Obstacles_area_shape_entered(area_id, area, area_shape, self_shape):
+	tween.remove_all()
+	print("Body Enter")
+
+func _on_Clickable_Area_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
+		if event.is_pressed():
+			move_dog_to(get_local_mouse_position(),0.75)
+			self.on_click()
+
+func _on_Fire_area_shape_entered(area_id, area, area_shape, self_shape):
+	emit_signal("dog_entered_fire")

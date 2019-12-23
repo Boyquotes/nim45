@@ -1,0 +1,12 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+margin_right = 208.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 144, 96 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2( -32, -32 )
+polygon = PoolVector2Array( 32, 160, 160, 160, 160, 192, 224, 192, 224, 160, 240, 160, 240, 32, 32, 32 )
