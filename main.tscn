@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Dog.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://roomA.tscn" type="PackedScene" id=4]
 [ext_resource path="res://DialogBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://FireEmitter.tscn" type="PackedScene" id=6]
+[ext_resource path="res://gifts.gd" type="Script" id=7]
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( -112, 0 )
@@ -39,12 +40,13 @@ extents = Vector2( 62, 16 )
 height = 12.0
 
 [node name="Main" type="Node2D"]
+position = Vector2( 0, 1 )
 rotation = -0.000520287
 script = ExtResource( 1 )
 
 [node name="Dog" parent="." instance=ExtResource( 2 )]
 position = Vector2( 80, 128 )
-z_index = -5
+z_index = -4
 script = ExtResource( 3 )
 
 [node name="Room" parent="." instance=ExtResource( 4 )]
@@ -112,6 +114,7 @@ position = Vector2( 128, 173 )
 shape = SubResource( 8 )
 
 [node name="Fire" type="Area2D" parent="."]
+editor/display_folded = true
 collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fire"]
@@ -121,9 +124,26 @@ shape = SubResource( 9 )
 [node name="FireEmitter" parent="Fire" instance=ExtResource( 6 )]
 position = Vector2( 144.342, 115.574 )
 scale = Vector2( 2.28011, 2.28011 )
+emission_shape = 1
+emission_sphere_radius = 1.87
+spread = 0.0
+
+[node name="gifts" type="Node2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="Timer" type="Timer" parent="gifts"]
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 32.0
+margin_bottom = 22.0
+text = "0"
 [connection signal="dog_entered_fire" from="." to="Dog" method="_on_Main_dog_entered_fire"]
 [connection signal="area_shape_entered" from="Obstacles" to="." method="_on_Obstacles_area_shape_entered"]
 [connection signal="input_event" from="Clickable Area" to="." method="_on_Clickable_Area_input_event"]
 [connection signal="area_shape_entered" from="Fire" to="." method="_on_Fire_area_shape_entered"]
+[connection signal="timeout" from="gifts/Timer" to="gifts" method="_on_Timer_timeout"]
 
 [editable path="DialogBox"]

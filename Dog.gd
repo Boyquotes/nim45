@@ -2,8 +2,10 @@
 extends Node2D
 var onFire = false
 onready var fireEmit = preload("res://FireEmitter.tscn")
+onready var giftPoof = preload("res://GiftPoof.tscn")
 
 var timer:Timer;
+var score  = 0;
 
 func _ready():
 	timer = get_node("Timer")
@@ -13,7 +15,6 @@ func timeoutFun():
 	timer.stop()
 	if (onFire):
 		var s = get_node("Sprite")
-		s.modulate = "#fff"
 		onFire = false
 		if has_node("FireEmitter"):
 			var f = get_node("FireEmitter")
@@ -24,10 +25,22 @@ func _on_Main_dog_entered_fire():
 	timer.start()
 	if !onFire:
 		var s = get_node("Sprite")
-		s.modulate = "#e7482b"
 		var f = fireEmit.instance();
-		f.scale.x = 3
-		f.scale.y = 3;
+		f.scale_amount = 6;
+		f.scale.x = 3;
+		f.z_index = z_index+1
 		f.local_coords = false;
 		self.add_child(f);
 		onFire = true;
+
+func _on_gift_touched(gift):
+	var label = get_node("/root/Main/Label")
+	var g = giftPoof.instance()
+	g.position = gift.global_position
+	g.set_emitting(true)
+	get_node("/root/Main").add_child(g)
+	score = score + gift.value;
+	label.text = "%d" % score
+	get_node("/root/Main/gifts").giftCount -= 1
+#	print("touched gift! score is %d" % score)
+	pass

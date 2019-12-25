@@ -15,6 +15,7 @@ var end:Vector2
 func _ready():
 	tween = get_node("Dog/Tween")
 	dog = get_node("Dog")
+	
 
 func move_dog_to(target_pos, time):
 	start = dog.position
@@ -31,12 +32,6 @@ func move_dog_to(target_pos, time):
         start, end, t,
         Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
 	tween.start()
-
-#func _input(event):
-#	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
-#		if event.is_pressed():
-#			move_dog_to(get_local_mouse_position(),0.75)
-#			self.on_click()
 
 func on_click():
     print("Click")
