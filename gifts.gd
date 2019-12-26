@@ -18,3 +18,8 @@ func _on_Timer_timeout():
 		gift.position = Vector2(rand_range(32,224), rand_range(32,160))
 		add_child(gift)
 		pass # Replace with function body.
+
+
+func _on_Dog_got_gift(gift):
+	
+	pass # Replace with function body.

@@ -1,4 +1,4 @@
-extends CPUParticles2D
+extends Label
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -8,8 +8,8 @@ extends CPUParticles2D
 func _ready():
 	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if !emitting:
-#		print("bye")
-		queue_free()
+func _on_Dog_got_gift(gift):
+	var main = get_node("/root/Main")
+	main.score = main.score + gift.value;
+	text = "%d" % main.score
+	pass # Replace with function body.

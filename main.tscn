@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Dog.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://DialogBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://FireEmitter.tscn" type="PackedScene" id=6]
 [ext_resource path="res://gifts.gd" type="Script" id=7]
+[ext_resource path="res://Label.gd" type="Script" id=8]
+[ext_resource path="res://cameraShake.gd" type="Script" id=9]
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( -112, 0 )
@@ -115,6 +117,7 @@ shape = SubResource( 8 )
 
 [node name="Fire" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fire"]
@@ -122,11 +125,8 @@ position = Vector2( 144, 112 )
 shape = SubResource( 9 )
 
 [node name="FireEmitter" parent="Fire" instance=ExtResource( 6 )]
-position = Vector2( 144.342, 115.574 )
-scale = Vector2( 2.28011, 2.28011 )
-emission_shape = 1
-emission_sphere_radius = 1.87
-spread = 0.0
+position = Vector2( 142.941, 114.074 )
+z_index = -4
 
 [node name="gifts" type="Node2D" parent="."]
 script = ExtResource( 7 )
@@ -140,7 +140,16 @@ margin_top = 8.0
 margin_right = 32.0
 margin_bottom = 22.0
 text = "0"
+script = ExtResource( 8 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 126.935, 124.066 )
+current = true
+script = ExtResource( 9 )
 [connection signal="dog_entered_fire" from="." to="Dog" method="_on_Main_dog_entered_fire"]
+[connection signal="got_gift" from="Dog" to="Label" method="_on_Dog_got_gift"]
+[connection signal="got_gift" from="Dog" to="Dog" method="_on_Dog_got_gift"]
+[connection signal="got_gift" from="Dog" to="gifts" method="_on_Dog_got_gift"]
 [connection signal="area_shape_entered" from="Obstacles" to="." method="_on_Obstacles_area_shape_entered"]
 [connection signal="input_event" from="Clickable Area" to="." method="_on_Clickable_Area_input_event"]
 [connection signal="area_shape_entered" from="Fire" to="." method="_on_Fire_area_shape_entered"]
